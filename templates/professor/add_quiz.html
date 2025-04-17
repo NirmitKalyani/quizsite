@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add Quiz{% endblock %}
+{% block extra_css %}
+  <!-- <link rel="stylesheet" href="{% static 'professor/style.css' %}"> -->
+  <link rel="stylesheet" href="{% static 'professor/add_quiz.css' %}">
+{% endblock %}
+{% block content %}
+    <h1>Add New Quiz</h1>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="post" id="quiz-form">
+        {% csrf_token %}
+        <div class="quiz-details">
+            <input type="text" name="quiz_title" placeholder="Quiz Title" required>
+            <!-- <p>Course: {{ course.course_name }}</p> -->
+            <input type="hidden" name="course" value="{{ course.course_id }}">
+            <select name="subject" required>
+                <option value="">Select Subject</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.subject_id }}">{{ subject.subject_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="number" id="duration" name="duration" placeholder="Duration (in minutes)" required>
+        </div>
+        <div id="questions">
+            <div class="question-block">
+                <input type="text" name="question_0" placeholder="Question" required>
+                <input type="text" name="qid_0" value="1" readonly>
+                <input type="text" name="option_0_0" placeholder="Option 1" required>
+                <input type="text" name="option_0_1" placeholder="Option 2" required>
+                <input type="text" name="option_0_2" placeholder="Option 3" required>
+                <input type="text" name="option_0_3" placeholder="Option 4" required>
+                <select name="correct_0" required>
+                    <option value="">Correct Answer</option>
+                    <option value="0">Option 1</option>
+                    <option value="1">Option 2</option>
+                    <option value="2">Option 3</option>
+                    <option value="3">Option 4</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" onclick="addQuestion()" class="btn">Add Another Question</button>
+        
+        <div class="action-buttons">
+            <a href="{% url 'professor_dashboard' %}" class="btn back">Back to Dashboard</a>
+            <button type="submit" class="btn">Add Quiz</button>
+        </div>
+    </form>
+    
+    <script>
+        let questionCount = 1;
+        function addQuestion() {
+            const questionsDiv = document.getElementById('questions');
+            const maxQid = Math.max(...Array.from(questionsDiv.querySelectorAll('input[name^="qid_"]')).map(i => parseInt(i.value) || 0));
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question-block';
+            newQuestion.innerHTML = `
+                <input type="text" name="question_${questionCount}" placeholder="Question" required>
+                <input type="text" name="qid_${questionCount}" value="${maxQid + 1}" readonly>
+                <input type="text" name="option_${questionCount}_0" placeholder="Option 1" required>
+                <input type="text" name="option_${questionCount}_1" placeholder="Option 2" required>
+                <input type="text" name="option_${questionCount}_2" placeholder="Option 3" required>
+                <input type="text" name="option_${questionCount}_3" placeholder="Option 4" required>
+                <select name="correct_${questionCount}" required>
+                    <option value="">Correct Answer</option>
+                    <option value="0">Option 1</option>
+                    <option value="1">Option 2</option>
+                    <option value="2">Option 3</option>
+                    <option value="3">Option 4</option>
+                </select>
+            `;
+            questionsDiv.appendChild(newQuestion);
+            questionCount++;
+        }
+    </script>
+{% endblock %}

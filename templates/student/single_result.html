@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Quiz Result - {{ quiz.quiz_title }}{% endblock %}
+
+
+
+{% block content %}
+    <main>
+        <div class="titl">
+            <h2>Result</h2>
+        </div>
+        
+        <div class="result-card">
+            <div class="result-header">
+                <div>
+                    <h2>Title</h2>
+                    <h3 class="quiz-title">{{ quiz.quiz_title }}</h3>
+                    <br>
+                    <div class="quiz-time">{{ quiz_duration }} min</div>
+                </div>
+                <div>
+                    <h2>Score</h2>
+                <div class="quiz-score">{{ score }}/{{ total_questions }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="questions-card">
+            {% for q in questions %}
+                <div class="question-item">
+                    <div><span class="question-label">Question</span>: {{ q.question_text }}</div>
+                    <div><span class="question-label">Your Answer</span>: {{ q.selected_answer }}</div>
+                    <div><span class="question-label">Correct Answer</span>: {{ q.correct_answer }}</div>
+                </div>
+            {% empty %}
+                <div class="question-item">No questions answered</div>
+            {% endfor %}
+        </div>
+        
+        <div class="btns">
+            <a href="{% url 'student_dashboard' %}" class="btnLogin">Back to Dashboard</a>
+        <a href="{% url 'quiz_results' %}" class="btnLogin">Show All Results</a>
+        </div>
+    </main>
+{% endblock %}

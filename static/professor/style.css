@@ -1,0 +1,135 @@
+/* Professor Dashboard Styles */
+:root {
+    --bg-color: #f5f5f5;
+    --card-bg: #ffffff;
+    --border-color: #d1d1d1;
+    --text-color: #333333;
+    --button-bg: #e0e0e0;
+    --button-hover: #c0c0c0;
+    --button-text: #333333;
+    --delete-button-bg: #444444;
+    --delete-button-text: #ffffff;
+    --table-header-bg: #f0f0f0;
+    --table-row-hover: #f9f9f9;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  
+  h1 {
+    font-size: 24px;
+    /* font-weight: 500; */
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    font-size: 32px;
+    /* font-weight: 900; */
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    text-align: center;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px auto;
+    max-width: 70%;
+  }
+  
+.btn{
+    text-align: center;
+    color: #333333;
+    width: 23%;
+}
+  
+  .quiz-table {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    /* border-collapse: collapse; */
+    border: 2px solid hsl(240, 5%, 16%);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 8px 8px 0px hsl(240, 5%, 16%);
+  }
+  
+  .quiz-table thead {
+    background-color: var(--table-header-bg);
+  }
+  
+  .quiz-table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--text-color);
+  }
+  
+  .quiz-table td {
+    padding: 10px 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 14px;
+  }
+  
+  .quiz-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .quiz-table tbody tr:hover {
+    background-color: var(--table-row-hover);
+  }
+  
+  .delete-form {
+    margin: 0;
+  }
+  
+  .btn.delete {
+    padding: 4px 0px;
+    font-size: 12px;
+    width: 100%;
+    margin-top: auto;
+    &:active {
+        transform: translateY(1px);
+        box-shadow: none;
+    }
+  }
+  
+  /* Empty state styling */
+  .quiz-table tbody tr td[colspan] {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .btn {
+      width: 100%;
+    }
+  
+    .quiz-table {
+      font-size: 13px;
+    }
+  
+    .quiz-table th,
+    .quiz-table td {
+      padding: 8px 10px;
+    }
+  }
+  

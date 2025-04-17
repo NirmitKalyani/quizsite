@@ -1,0 +1,98 @@
+{% extends 'base.html' %} 
+{% block title %}Student Dashboard{% endblock %}
+{%block content %}
+<main>
+  <header>
+    <h1>Welcome, {{request.user.first_name}} {{request.user.last_name}}</h1>
+    <div>
+      <button><a href="{% url 'student_profile' %}">Update Profile</a></button>
+      <button><a href="{% url 'logout' %}">Logout <i class="fa-solid fa-right-from-bracket"></i></a></button>
+    </div>
+  </header>
+
+  <section class="available-quizzes">
+    <div>
+      <h3>Available Quizzes</h3>
+        <table>
+            {% for quiz in available_quizzes %}
+            <tr>
+                <td>{{ quiz.quiz_title }}</td>
+                <td><i class="fa-solid fa-clock"></i> {{ quiz.quiz_duration }} : 00 Min </td>
+                <td>
+                    <a href="{% url 'take_quiz' quiz_id=quiz.quiz_id %}" class=""> <i class="fa-solid fa-clipboard-question"></i> Take Quiz</a>
+                </td>
+            </tr>
+            {% empty %}
+            <span style="display: block; margin-top: 20px; text-align: center;">No quizzes available</span>
+            {% endfor %}
+            
+        </table>
+    </div>
+  </section>
+
+  <section >
+    <div class="title">
+      <h1>Performance <i class="fa-solid fa-chart-simple"></i></h1>
+    </div>
+       <div class="cards">
+        <div class="card">
+          <h4>Completed Quizzes</h4>
+          <h5>{{ completed_quizzes_count }}</h5>
+      </div>
+      <div class="card">
+          <h4>Total Questions</h4>
+          <h5>{{ total_questions }}</h5>
+      </div>
+      <div class="card">
+          <h4>Correct Questions</h4>
+          <h5>{{ correct_questions }}</h5>
+      </div>
+      <div class="card">
+          <h4>Incorrect Questions</h4>
+          <h5>{{ incorrect_questions }}</h5>
+      </div>
+       </div>
+  </section>
+
+  <section>
+    <div class="title">
+      <h2>Quiz History <i class="fa-solid fa-clock-rotate-left"></i></h2>
+      <button><a href="{% url 'quiz_results' %}" class=""> <i class="fa-solid fa-square-poll-vertical"></i> Show All Results</a></button>
+    </div>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Correct Questions</th>
+          <th>Total Questions</th>
+          <th>Percentage</th>
+          <th>Result</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz in quiz_history %}
+        <tr>
+          <td>{{ quiz.subject }}</td>
+          <td>{{ quiz.correct_questions }}</td>
+          <td>{{ quiz.total_questions }}</td>
+          <td>{{ quiz.percentage }}</td>
+          <td>{{ quiz.result }}</td>
+          <td>
+            <a href="{% url 'single_quiz_result' quiz_id=quiz.quiz_id %}" class=""
+              ><i class="fa-solid fa-square-poll-horizontal"></i> Result</a
+            >
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">No quiz history yet</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  </section>
+</main>
+{% endblock %}

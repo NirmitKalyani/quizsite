@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ student.first_name }}'s Response - {{ quiz.quiz_title }}{% endblock %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'professor/style.css' %}">
+  <link rel="stylesheet" href="{% static 'professor/quiz_responses.css' %}">
+{% endblock %}
+{% block content %}
+    <h1>{{ student.first_name }} {{ student.last_name }}'s Response For {{ quiz.quiz_title }}</h1>
+    
+    <div class="score-card">
+        <span class="score-label">Score</span>
+        <span class="score-value">{{ score }} / {{ total_questions }}</span>
+    </div>
+    
+    <div class="response-details">
+        {% for q in question_details %}
+            <div class="question-item">
+                <div class="question-text"><span style="font-weight: 700;">Question:</span> {{ q.question_text }}</div>
+                <div class="response-row">
+                    <span class="response-label" style="font-weight: 700;">Selected:</span>
+                    <span class="response-value {% if q.is_correct %}correct{% else %}incorrect{% endif %}">{{ q.selected_answer }}</span>
+                </div>
+                <div class="response-row">
+                    <span class="response-label" style="font-weight: 700;">Correct:</span>
+                    <span class="response-value">
+                        {{ q.correct_answer }}
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <a href="{% url 'quiz_responses' quiz_id=quiz.quiz_id %}" class="btn">Back to Responses</a>
+{% endblock %}

@@ -1,0 +1,404 @@
+@font-face {
+    font-family: "ceira";
+    src: url(../fonts/Inter-Black.woff2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    font-family: "ceira", sans-serif;
+    color: hsl(240, 5%, 16%);
+    background-color: #f9f9f9;
+}
+
+/* Login */
+.main {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.main > div {
+    height: max-content;
+    width: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 2rem;
+    background-color: #f0f0f0;
+    border: 4px solid hsl(240, 5%, 16%);
+    border-radius: 12px;
+    box-shadow: 8px 8px 0 hsl(240, 5%, 16%);
+}
+
+@media screen and (max-width:696px) {
+    .main > div {
+        display: none;
+    }
+}
+
+
+.main > div > h2 {
+    font-size: clamp(1rem, 2vw, 3rem);
+}
+
+label{
+    display: block;
+}
+
+input, select {
+    margin-top: 0.5rem;
+    min-width: 25vw;
+    padding: 0.5rem;
+    font-size: clamp(0.7rem, 1.2vw, 2rem);
+    background-color: #f0f0f0;
+    border: none;
+    outline: none;
+}
+
+
+
+.btn {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: 2px solid hsl(240, 5%, 16%);
+    border-radius: 5px;
+    font-size: clamp(0.7rem, 1.2vw, 2rem);
+    box-shadow: 6px 6px 0 hsl(240, 5%, 16%);
+    font-family: 'ceira';
+    text-decoration: none;
+    width: 100%;
+    background-color: #d9d9d9;
+    transition: all 0.3s ease;   
+    &:hover {
+        text-decoration: underline;
+        background-color: #c4c4c4;
+    }
+    &:active {
+        transform: translateY(2px);
+        box-shadow: none;
+    }
+}
+
+
+
+
+
+
+
+/* Dashboard */
+
+main {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 2%;
+}
+
+@media screen and (max-width: 1096px) {
+    main {
+        width: 95%;
+    }
+}
+
+header {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+
+    h1 {
+        font-size: clamp(1rem, 2vw, 3rem);
+    }
+
+    div {
+        height: 100%;
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    button {
+        background-color: transparent;
+        border: none;
+        font-family: "ceira";
+        font-size: clamp(0.7rem, 1.2vw, 2rem);
+
+
+        a {
+            text-decoration: none;
+            color: hsl(240, 5%, 16%);
+
+            &:hover {
+                border-bottom: 2px solid;
+            }
+        }
+
+    }
+
+
+}
+
+@media screen and (max-width: 456px) {
+    header {
+
+        div {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+}
+
+
+.available-quizzes {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h3 {
+        font-size: clamp(1rem, 2vw, 3rem);
+        margin-top: 2%;
+    }
+    
+    div {
+        width: 90%;
+        margin-top: 2%;
+        padding: 1rem;
+        border: 4px solid hsl(240, 5%, 16%);
+        border-radius: 16px;
+        box-shadow: 8px 8px 0 hsl(240, 5%, 16%);
+        background: linear-gradient(to bottom, #d9d9d9, #b3b3b3);
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 2%;
+        text-transform: capitalize;
+
+        tr {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+            border-bottom: 2px solid hsl(0, 0%, 40%);
+
+            td {
+                align-content: flex-start;
+                text-align: left;   
+                padding: 1rem;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            color: hsl(240, 5%, 16%);
+            background-color: hsl(240, 5%, 16%);
+            color: white;
+            border-radius: 8px;
+            padding: 0.5rem;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+    }
+}
+
+
+section:nth-child(3) {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0 auto;
+    margin-top: 4%;
+    padding: 1rem;
+    border: 4px solid hsl(240, 5%, 16%);
+    border-radius: 16px;
+    box-shadow: 8px 8px 0 hsl(240, 5%, 16%);
+    background-color: #f0f0f0;
+    background: linear-gradient(to bottom, #d9d9d9, #b3b3b3);
+
+    .cards {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .card {
+        min-width: 200px;
+        height: 160px;
+        padding: 1rem;
+        border: 4px solid hsl(240, 5%, 16%);
+        border-radius: 16px;
+        box-shadow: inset 0px 8px hsl(240, 5%, 16%);
+        text-align: center;
+        background-color: #d9d9d9;
+        background: linear-gradient(to bottom, #d9d9d9, #b3b3b3);
+
+        h4 {
+            font-size: clamp(1rem, 1.5vw, 3rem);
+        }
+
+        h5 {
+            font-size: clamp(2rem, 4vw, 5rem);
+        }
+    }
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(1rem, 1.5vw, 3rem);
+    
+    button {
+        padding: 0.4rem;
+        border: 2px solid hsl(240, 5%, 16%);
+        background-color: hsl(240, 5%, 16%);
+        border-radius: 8px;
+        font-size: clamp(0.7rem, 1.2vw, 2rem);
+        font-family: 'ceira';
+
+
+
+        a {
+            text-decoration: none;
+            color: white;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+section:nth-child(4) {
+    width: 90%;
+    background-color: #f0f0f0;
+    border: 4px solid hsl(240, 5%, 16%);
+    box-shadow: 8px 8px hsl(240, 5%, 16%);
+    border-radius: 16px;
+    margin: 0 auto;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    padding: 1rem;
+    background: linear-gradient(to bottom, #d9d9d9, #b3b3b3);
+
+    div {
+        min-width: 100%;
+        overflow: auto;
+    }
+}
+
+
+section:nth-child(4)>div>table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2%;
+    text-transform: capitalize;
+    text-align: center;
+
+}
+
+section:nth-child(4)>div>table>thead>tr {
+    height: 100%;
+    justify-content: space-evenly;
+    font-size: clamp(1rem, 1.2vw, 2rem);
+    border-bottom: 2px solid hsl(240, 5%, 16%);
+}
+
+section:nth-child(4)>div>table>thead>tr>td {
+    border-bottom: 2px solid hsl(0, 0%, 10%);
+}
+
+section:nth-child(4)>div>table>tbody>tr>td {
+    padding: 1rem;
+    border-bottom: 2px solid hsl(0, 0%, 40%);
+
+    a {
+        text-decoration: none;
+        padding: 0.3rem;
+        border: 2px solid hsl(240, 5%, 16%);
+        color: white;
+        background-color: hsl(240, 5%, 16%);
+        border-radius: 8px;
+        font-size: clamp(0.7rem, 1.2vw, 2rem);
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+/* 
+@media screen and (max-width: 696px) {
+    .available-quizzes {
+        div {
+            width: 90%;
+        }
+
+        td:nth-child(2) {
+            display: none;
+        }
+    }
+
+    section:nth-child(4)>div>table {
+        display: flex;
+
+    }
+
+    section:nth-child(4)>div>table>thead>tr {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+    }
+
+    section:nth-child(4)>div>table>tbody>tr {
+        display: flex;
+        text-align: right;
+    }
+
+
+}
+
+@media screen and (max-width: 395px) {
+
+    tr {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    td {
+        padding: 0.5rem;
+    }
+
+    section:nth-child(4)>div>table>thead>tr {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+    }
+
+    section:nth-child(4)>div>table>tbody>tr {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+    }
+
+} */

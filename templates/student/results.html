@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}All Quiz Results{% endblock %}
+{% block content %}
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+    
+    .page-title {
+        text-align: center;
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+    
+    .quiz-card {
+        margin-bottom: 25px;
+        border: 4px solid hsl(240, 5%, 16%);
+        border-radius: 8px;
+        overflow: hidden;
+        background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+        box-shadow: 8px 8px 0 hsl(240, 5%, 16%);
+    }
+    
+    .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        /* border-bottom: 5px solid #999; */
+    }
+    
+    .quiz-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin: 0;
+        text-transform: capitalize;
+    }
+    
+    .quiz-score {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .quiz-content {
+        padding: 15px;
+    }
+    
+    .question-item {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #b6b6b6;
+    }
+    
+    .question-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .question-grid {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        row-gap: 8px;
+    }
+    
+    .question-label {
+        font-weight: bold;
+    }
+    
+    
+    .quiz-time {
+        font-size: 14px;
+    }
+    
+    
+    .empty-state {
+        background-color: #f8f8f8;
+        padding: 30px;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 25px;
+    }
+    
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 4px solid hsl(240, 5%, 16%);
+        box-shadow: 6px 6px 0 hsl(240, 5%, 16%);
+        background-color: #d9d9d9;
+        color: hsl(240, 5%, 16%);
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+    }
+    
+    .button:hover {
+        background-color: #c4c4c4;
+    }
+
+    .button:active {
+        transform: translateY(6px);
+        box-shadow: none;
+    }
+</style>
+
+<div class="container">
+    <h1 class="page-title">All Quiz Results</h1>
+    
+    {% for quiz_detail in quiz_details %}
+        <div class="quiz-card">
+            <div class="quiz-header">
+                <h2 class="quiz-title">{{ quiz_detail.quiz.quiz_title }}</h2>
+                <div class="quiz-score"><i class="fa-solid fa-square-poll-horizontal"></i> {{ quiz_detail.score }}/{{ quiz_detail.total_questions }}</div>
+                <div class="quiz-time">
+                    <i class="fa-solid fa-clock"></i> {{ quiz_detail.quiz_duration }} minutes
+                </div>
+            </div>
+            
+            <div class="quiz-content">
+                {% for q in quiz_detail.questions %}
+                    <div class="question-item">
+                        <div class="question-grid">
+                            <div class="question-label">Question:</div>
+                            <div>{{ q.question_text }}</div>
+                            
+                            <div class="question-label">Your Answer:</div>
+                            <div>{{ q.selected_answer }}</div>
+                            
+                            <div class="question-label">Correct Answer:</div>
+                            <div>{{ q.correct_answer }}</div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No questions answered for this quiz</p>
+                {% endfor %}
+            </div>
+            
+            
+        </div>
+    {% empty %}
+        <div class="empty-state">
+            <p>No quiz results yet. Go take some quizzes!</p>
+        </div>
+    {% endfor %}
+    
+    <div class="button-container">
+        <a href="{% url 'student_dashboard' %}" class="button">Back to Dashboard</a>
+        <a href="{% url 'logout' %}" class="button">Logout</a>
+    </div>
+</div>
+{% endblock %}

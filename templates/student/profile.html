@@ -1,0 +1,122 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Student Profile{%endblock %} 
+{% block content %}
+
+<style>
+  .main > div {
+    height: 95%;
+  }
+  .buttons{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      width: 45%;
+    }
+    a{
+      width: 45%;
+      color: black;
+      text-align: center;
+    }
+  }
+</style>
+
+<div class="main">
+  <div class="login-container">
+<h1>Your Profile, {{ user.first_name }}</h1>
+{% if error %}
+<p style="color: red">{{ error }}</p>
+{% endif %}
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="first_name">First Name:</label>
+    <div style="border-bottom: 3px solid;">
+    <i class="fa-solid fa-id-card"></i>
+      <input
+      type="text"
+      id="first_name"
+      name="first_name"
+      value="{{ user.first_name }}"
+      required
+    />
+    </div>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="last_name">Last Name:</label>
+    <div style="border-bottom: 3px solid;">
+    <i class="fa-solid fa-id-card"></i>
+      <input
+      type="text"
+      id="last_name"
+      name="last_name"
+      value="{{ user.last_name }}"
+      required
+    />
+    </div>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="user_phNo">Phone Number:</label>
+    <div style="border-bottom: 3px solid;">
+    <i class="fa-solid fa-phone"></i>
+      <input
+      type="text"
+      id="user_phNo"
+      name="user_phNo"
+      value="{{ user.user_phNo }}"
+      required
+    />
+    </div>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <div style="border-bottom: 3px solid;">
+    <i class="fa-solid fa-envelope"></i>
+      <input
+      type="email"
+      id="email"
+      name="email"
+      value="{{ user.email }}"
+      required
+    />
+    </div>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="password">New Password:</label>
+    <div style="border-bottom: 3px solid;">
+    <i class="fa-solid fa-lock"></i>
+        <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="Leave blank to keep current"
+    />
+    </div>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="password_confirm">Confirm Password:</label>
+    <div style="border-bottom: 3px solid;">
+    <i class="fa-solid fa-lock"></i>
+      <input
+      type="password"
+      id="password_confirm"
+      name="password_confirm"
+      placeholder="Match new password"
+    />
+    </div>
+  </div>
+  {% if error %}
+<p style="color: red">{{ error }}</p>
+{% endif %}
+  <div class="buttons">
+    <button type="submit" class="btn">Update Profile</button><a href="{% url 'student_dashboard' %}" class="btn">Back to Dashboard</a>
+  </div>
+</form>
+</div>
+</div>
+  {% endblock %}

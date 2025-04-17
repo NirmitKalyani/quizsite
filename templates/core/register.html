@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .main{
+        height: 150vh;
+        width: 100%;
+    }
+    .main > div {
+        width: 60%;
+        height: 90%;
+    }
+
+    input, select {
+        width: 50vw;
+    }
+
+</style>
+<div class="main">
+    <div class="login-container">
+    <h2>Register</h2>
+    <form method="post" id="register-form">
+        {% csrf_token %}
+        <div style="border-bottom: 3px solid;">
+            <label>Email:</label>
+            <i class="fa-solid fa-envelope"></i><input type="email" name="email" value="{{ email }}" required>
+            {% if errors.email %}<p class="error">{{ errors.email }}</p>{% endif %}
+        </div>
+        <br>
+        <div style="border-bottom: 3px solid;">
+            <label>Password:</label>
+            <i class="fa-solid fa-lock"></i><input type="password" name="password" required>
+            {% if errors.password %}<p class="error">{{ errors.password }}</p>{% endif %}
+        </div>
+        <br>
+        <div style="border-bottom: 3px solid;">
+            <label>First Name:</label>
+            <i class="fa-solid fa-id-card"></i><input type="text" name="first_name" value="{{ first_name }}" required>
+            {% if errors.first_name %}<p class="error">{{ errors.first_name }}</p>{% endif %}
+        </div>
+        <br>
+        <div style="border-bottom: 3px solid;">
+            <label>Last Name:</label>
+            <i class="fa-solid fa-id-card"></i><input type="text" name="last_name" value="{{ last_name }}" required>
+            {% if errors.last_name %}<p class="error">{{ errors.last_name }}</p>{% endif %}
+        </div>
+        <br>
+        <div style="border-bottom: 3px solid;">
+            <label>Gender:</label>
+            <i class="fa-solid fa-venus-mars"></i><select name="user_gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male" {% if user_gender == 'Male' %}selected{% endif %}>Male</option>
+                <option value="Female" {% if user_gender == 'Female' %}selected{% endif %}>Female</option>
+                <option value="Other" {% if user_gender == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+            {% if errors.user_gender %}<p class="error">{{ errors.user_gender }}</p>{% endif %}
+        </div>
+        <br>
+        <div style="border-bottom: 3px solid;">
+            <label>Phone:</label>
+            <i class="fa-solid fa-phone"></i><input type="text" name="user_phNo" value="{{ user_phNo }}" required>
+            {% if errors.user_phNo %}<p class="error">{{ errors.user_phNo }}</p>{% endif %}
+        </div>
+        <br>
+        <div style="border-bottom: 3px solid;">
+            <label>State:</label>
+            <i class="fa-solid fa-map-location-dot"></i><select name="state" id="state-select">
+                <option value="">Select State</option>
+                {% for state in states %}
+                    <option value="{{ state.state_id }}" {% if state_id == state.state_id|stringformat:"s" %}selected{% endif %}>{{ state.state_name }}</option>
+                {% endfor %}
+            </select>
+            {% if errors.state %}<p class="error">{{ errors.state }}</p>{% endif %}
+        </div>
+        <br>
+        <div style="border-bottom: 3px solid;">
+            <label>City:</label>
+            <i class="fa-solid fa-city"></i><select name="city" id="city-select">
+                <option value="">Select City</option>
+                {% for city in cities %}
+                    <option value="{{ city.city_id }}" data-state="{{ city.state.state_id }}" {% if city_id == city.city_id|stringformat:"s" %}selected{% endif %}>{{ city.city_name }}</option>
+                {% endfor %}
+            </select>
+            {% if errors.city %}<p class="error">{{ errors.city }}</p>{% endif %}
+        </div>
+        <br>
+        <div style="border-bottom: 3px solid;">
+            <label>Course:</label>
+            <i class="fa-solid fa-user-graduate"></i><select name="course">
+                <option value="">Select Course</option>
+                {% for course in courses %}
+                    <option value="{{ course.course_id }}" {% if course_id == course.course_id|stringformat:"s" %}selected{% endif %}>{{ course.course_name }}</option>
+                {% endfor %}
+            </select>
+            {% if errors.course %}<p class="error">{{ errors.course }}</p>{% endif %}
+        </div>
+        <br>
+        <button type="submit" class="btn"> <i class="fa-solid fa-user-plus"></i> &nbsp;  Register</button>
+
+    </form>
+    <br>
+    </div>
+    <br>
+    <p>
+        Already have an account <a href="{% url 'login' %}">LogIn</a>
+      </p>
+
+</div>
+    <br><br><br>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const stateSelect = document.getElementById('state-select');
+            const citySelect = document.getElementById('city-select');
+            const allCities = Array.from(citySelect.options).slice(1); 
+
+            function filterCities() {
+                const selectedState = stateSelect.value;
+                citySelect.innerHTML = '<option value="">Select City</option>';
+
+                if (selectedState) {
+                    const filteredCities = allCities.filter(option => option.getAttribute('data-state') === selectedState);
+                    filteredCities.forEach(option => citySelect.appendChild(option.cloneNode(true)));
+                } else {
+                    allCities.forEach(option => citySelect.appendChild(option.cloneNode(true)));
+                }
+
+                const prevCity = "{{ city_id }}";
+                if (prevCity) {
+                    const option = citySelect.querySelector(`option[value="${prevCity}"]`);
+                    if (option) option.selected = true;
+                }
+            }
+
+            stateSelect.addEventListener('change', filterCities);
+            filterCities(); 
+        });
+    </script>
+{% endblock %}

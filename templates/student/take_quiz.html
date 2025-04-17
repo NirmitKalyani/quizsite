@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% block title %}Take Quiz - {{ quiz.quiz_title }}{% endblock %}
+{% block content %}
+<style>
+    .title {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-transform: capitalize;
+    }
+    .question-timer {
+        width: 70%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        margin-top: 30px;
+    }
+    .question {
+        width: 70%;
+        min-height: 100px;
+        margin: 0 auto;
+        margin-top: 4%;
+        padding: 1rem;
+        border: 4px solid hsl(240, 5%, 16%);
+        border-radius: 16px;
+        box-shadow: 8px 8px 0 hsl(240, 5%, 16%);
+        background-color: #f0f0f0;
+    }
+    .options{
+        width: 70%;
+        min-height: 300px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 20px;
+    }
+
+
+  
+
+    .option {
+        position: relative;
+        width: 40%;
+        border: 4px solid hsl(240, 5%, 16%);
+        border-radius: 14px;
+        box-shadow: 8px 8px 0 hsl(240, 5%, 16%);
+        display: flex;
+        justify-content: start;
+        gap: 10px;
+        align-items: center;
+        padding: 0.6rem;
+        background-color: #f0f0f0;
+
+        label {
+            margin-left: 30px;
+        }
+    }
+
+
+      
+    @media screen and (max-width:696px) {
+
+        .question {
+            width: 90%;
+            
+        }
+
+        .options {
+            width: 90%;
+            gap: 30px;
+            flex-direction: column;
+        }
+        .option{
+            width: 100%;
+    }
+    }
+
+    input{
+        width: 0;
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+    }
+    .checkmark {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        height: 25px;
+        width: 25px;
+        border: 4px solid hsl(240, 5%, 16%);
+        border-radius: 8px;
+    }
+    input:checked ~ .checkmark {
+        background-color: hsl(240, 5%, 16%);
+    }
+    .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkmark:after {
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.quiz-submit {
+    width: 20%;
+    margin-left: 40%;
+}
+
+</style>
+<main>
+    <div class="title">
+        <h2>{{ quiz.quiz_title }}</h2>
+    </div>
+    <div id="timer" class="question-timer"> <p>Question {{ question_number }} of {{ total_questions }}</p> <div>
+        <i class="fa-solid fa-clock"></i> <span id="time-left">{{ time_left }} : 00</span>
+    </div></div>
+    
+    
+    <form method="post" id="quiz-form" action="{% url 'take_quiz' quiz_id=quiz.quiz_id %}">
+        {% csrf_token %}
+        <div class="question">
+            <p><strong>{{ question.question_text }}</strong></p>
+        </div>
+       
+        <div class="options">
+        {% for option in options %}
+                <div class="option">
+                    <input type="radio" name="question_{{ question.question_id }}" value="{{ option.option_id }}"
+                           id="option_{{ option.option_id }}"
+                           {% if option.id|stringformat:s in request.session.responses.values %}checked{% endif %} required/>
+                           <span class="checkmark"></span>
+                    <label for="option_{{ option.option_id }}" class="">{{ option.option_text }}</label>
+                </div>
+            {% endfor %}
+            </div>
+        {% if is_last_question %}
+            <button type="submit" name="submit" class="btn quiz-submit">Submit</button>
+        {% else %}
+            <button type="submit" name="next" class="btn quiz-submit">Next</button>
+        {% endif %}
+    </form>
+</main>
+    <script>
+        let timeLeft = {{ time_left }};
+        const timerElement = document.getElementById('time-left');
+        const form = document.getElementById('quiz-form');
+
+        function updateTimer() {
+            if (timeLeft >= 0) {
+                timerElement.textContent = timeLeft;
+                timeLeft--;
+            } else {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'submit';
+                hiddenInput.value = 'true';
+                form.appendChild(hiddenInput);
+                form.submit(); 
+                
+                
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        window.onbeforeunload = function() {
+            clearInterval(timerInterval);
+        };
+
+        updateTimer();
+    </script>
+{% endblock %}

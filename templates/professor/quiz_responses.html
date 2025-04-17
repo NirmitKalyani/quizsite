@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Quiz Responses - {{ quiz.quiz_title }}{% endblock %}
+{% block extra_css %}
+  <!-- <link rel="stylesheet" href="{% static 'professor/style.css' %}"> -->
+  <link rel="stylesheet" href="{% static 'professor/quiz_responses.css' %}">
+{% endblock %}
+{% block content %}
+    <h1>Responses for {{ quiz.quiz_title }}</h1>
+    <table class="quiz-table">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student, data in student_scores.items %}
+                <tr onclick="window.location='{% url 'student_responses' quiz_id=quiz.quiz_id student_id=student.id %}'">
+                    <td>{{ student.first_name }} {{ student.last_name }}</td>
+                    <td>{{ data.score }} / {{ data.total }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="2">No responses yet</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{% url 'professor_dashboard' %}" class="btn">Back to Dashboard</a>
+{% endblock %}

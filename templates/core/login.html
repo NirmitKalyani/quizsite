@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="main">
+  <div class="login-container login">
+    <h2>Login</h2>
+    
+    <form method="post">
+      {% csrf_token %}
+      <label for="email">Enter email</label>
+      
+      <div style="border-bottom: 3px solid;">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" name="email" placeholder="Enter your email" />
+      </div>
+      {% if errors.email %}
+      <p class="error" style="color: red">{{ errors.email }}</p>
+      {% endif %}
+      <br>
+      <label for="password">Enter password</label>
+      <div style="border-bottom: 3px solid;">
+        <i class="fa-solid fa-lock"></i>
+        <input
+        type="password"
+        name="password"
+        placeholder="Enter your password"
+      />
+      </div>
+      {% if errors.password %}
+    <p class="error" style="color: red">{{ errors.password }}</p>
+    <br>
+    {% endif %}
+      <br>
+      <button class="btn">Login <i class="fa-solid fa-right-to-bracket"></i></button>
+    </form>
+    <div class="forget-pass">
+      <a href="#">Forgot password?</a>
+    </div>
+    <br />
+  </div>
+
+<p style="margin-top: 30px;">
+  Don't have an account? <a href="{% url 'register' %}">Register</a>
+</p>
+
+</div>
+{% endblock %}
