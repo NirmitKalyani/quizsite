@@ -123,6 +123,9 @@ input:checked ~ .checkmark:after {
     width: 20%;
     margin-left: 40%;
 }
+.option > label {
+    width: 100%;
+}
 
 </style>
 <main>
@@ -142,15 +145,17 @@ input:checked ~ .checkmark:after {
        
         <div class="options">
         {% for option in options %}
-                <div class="option">
+            <div class="option">
+                <label for="option_{{ option.option_id }}">
                     <input type="radio" name="question_{{ question.question_id }}" value="{{ option.option_id }}"
-                           id="option_{{ option.option_id }}"
-                           {% if option.id|stringformat:s in request.session.responses.values %}checked{% endif %} required/>
-                           <span class="checkmark"></span>
-                    <label for="option_{{ option.option_id }}" class="">{{ option.option_text }}</label>
-                </div>
-            {% endfor %}
+                        id="option_{{ option.option_id }}"
+                        {% if option.id|stringformat:s in request.session.responses.values %}checked{% endif %} required/>
+                    <span class="checkmark"></span>
+                    {{ option.option_text }}
+                </label>
             </div>
+            {% endfor %}
+        </div>
         {% if is_last_question %}
             <button type="submit" name="submit" class="btn quiz-submit">Submit</button>
         {% else %}
