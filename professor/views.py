@@ -11,8 +11,8 @@ def professor_dashboard(request):
     if user.role.role_name != 'professor':
         return redirect('dashboard')
     
-    print(user.course)
-    quizzes = QuizDetails.objects.filter(quiz_createdBy=user, quiz_isAct=True)
+    
+    quizzes = QuizDetails.objects.filter(quiz_createdBy=user, quiz_isAct=True).select_related('subject', 'course')
     courses = CourseDetails.objects.filter(course_id=user.course.course_id) if user.course else CourseDetails.objects.none()
     quizzes_data = []
     for quiz in quizzes:
@@ -83,7 +83,6 @@ def add_quiz(request):
                 quiz_duration=duration,
                 quiz_isAct=True
             )
-            # Rest of the quiz creation logic remains the same
             max_qid = QuestionMaster.objects.aggregate(Max('question_id'))['question_id__max'] or 0
             for q_text, qid, opts, correct in questions:
                 if qid <= max_qid:
@@ -143,15 +142,11 @@ def quiz_responses(request, quiz_id):
         student_scores[student]['total'] += 1
         if response.option.option_isCorrect:
             student_scores[student]['score'] += 1
-    
-    pass_count = sum(1 for s in student_scores.values() if s['score'] / s['total'] >= 0.5)
-    fail_count = len(student_scores) - pass_count
+                                
     
     return render(request, 'professor/quiz_responses.html', {
         'quiz': quiz,
-        'student_scores': student_scores,
-        'pass_count': pass_count,
-        'fail_count': fail_count
+        'student_scores': student_scores,               
     })
 
 @login_required

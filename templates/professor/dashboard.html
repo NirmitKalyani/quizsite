@@ -16,7 +16,6 @@
                 <th>Title</th>
                 <th>Subject</th>
                 <th>Duration</th>
-                <!-- <th>Questions</th> -->
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,13 +23,8 @@
             {% for quiz in quizzes %}
                 <tr onclick="window.location='{% url 'quiz_responses' quiz_id=quiz.quiz_id %}'">
                     <td>{{ quiz.quiz_title }}</td>
-                    <td>{{ quiz.course.quiz_subject }}</td>
+                    <td>{{ quiz.subject.subject_name }}</td>
                     <td>{{ quiz.quiz_duration }} min</td>
-                    <!-- <td>
-                        {% for q in quiz.questionmaster_set.all %}
-                            {{ q.question_id }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </td> -->
                     <td onclick="event.stopPropagation();">
                         <form method="post" action="{% url 'delete_quiz' quiz_id=quiz.quiz_id %}" class="delete-form" onsubmit="return confirmDelete('{{ quiz.quiz_title }}')">
                             {% csrf_token %}
@@ -46,7 +40,7 @@
 
     <script>
         function confirmDelete(quizTitle) {
-            return confirm(`Are you sure you want to delete "${quizTitle}"? This shit’s permanent!`);
+            return confirm(`Are you sure you want to delete "${quizTitle}"? This is permanent!`);
         }
     </script>
     
